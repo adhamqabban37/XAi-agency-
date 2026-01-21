@@ -59,7 +59,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: "YOUR_WEB3FORMS_ACCESS_KEY_HERE", // Replace with your key from web3forms.com
+          access_key: "50429d6b-83f5-4311-9a44-a247a0bf849f",
           subject: `New Strategy Session Request from ${formData.name}`,
           from_name: formData.name,
           email: formData.email,
