@@ -36,10 +36,23 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
     setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, you'd send this data to a server.
-    console.log({ ...formData, message });
+    
+    // Send email via mailto (opens user's email client)
+    const subject = encodeURIComponent(`New Strategy Session Request from ${formData.name}`);
+    const body = encodeURIComponent(`
+Full Name: ${formData.name}
+Company Name: ${formData.company}
+Work Email: ${formData.email}
+
+Project Details:
+${message || 'Not provided'}
+    `);
+    
+    window.location.href = `mailto:xenlixai@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Show success message
     setIsSubmitted(true);
   };
 
