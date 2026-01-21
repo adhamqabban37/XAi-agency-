@@ -1,13 +1,18 @@
-
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Logo } from './Logo';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Logo } from "./Logo";
 
 interface BookingPageProps {
   onGoBack: () => void;
 }
 
-const FormInput: React.FC<{ id: string; label: string; type?: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }> = ({ id, label, type = 'text', value, onChange }) => (
+const FormInput: React.FC<{
+  id: string;
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ id, label, type = "text", value, onChange }) => (
   <div className="relative">
     <input
       id={id}
@@ -27,33 +32,56 @@ const FormInput: React.FC<{ id: string; label: string; type?: string; value: str
 );
 
 export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
-  const [formData, setFormData] = useState({ name: '', company: '', email: '' });
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    email: "",
+  });
+  const [message, setMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Send email via mailto (opens user's email client)
-    const subject = encodeURIComponent(`New Strategy Session Request from ${formData.name}`);
-    const body = encodeURIComponent(`
-Full Name: ${formData.name}
-Company Name: ${formData.company}
-Work Email: ${formData.email}
+    setIsSubmitting(true);
 
-Project Details:
-${message || 'Not provided'}
-    `);
-    
-    window.location.href = `mailto:xenlixai@gmail.com?subject=${subject}&body=${body}`;
-    
-    // Show success message
-    setIsSubmitted(true);
+    try {
+      // Send email via Web3Forms API
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "YOUR_WEB3FORMS_ACCESS_KEY_HERE", // Replace with your key from web3forms.com
+          subject: `New Strategy Session Request from ${formData.name}`,
+          from_name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: message || "Not provided",
+          to_email: "xenlixai@gmail.com",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -62,8 +90,19 @@ ${message || 'Not provided'}
         onClick={onGoBack}
         className="absolute top-8 left-8 flex items-center space-x-2 text-slate-400 hover:text-white transition-colors z-20"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
         </svg>
         <span>Back to site</span>
       </button>
@@ -77,16 +116,30 @@ ${message || 'Not provided'}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
               className="bg-slate-900/50 border border-cyan-400/30 rounded-xl p-10"
             >
               <div className="flex justify-center mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-16 w-16 text-cyan-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <h2 className="text-3xl font-bold text-white mb-4">Thank You!</h2>
-              <p className="text-slate-300">Your request has been received. We will be in touch within 24 hours to schedule your strategy session.</p>
+              <p className="text-slate-300">
+                Your request has been received. We will be in touch within 24
+                hours to schedule your strategy session.
+              </p>
             </motion.div>
           ) : (
             <motion.div
@@ -96,13 +149,34 @@ ${message || 'Not provided'}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Book a Strategy Session</h1>
-              <p className="text-slate-400 mb-10">Let's architect your first digital employee. Fill out the form below to get started.</p>
-              
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Book a Strategy Session
+              </h1>
+              <p className="text-slate-400 mb-10">
+                Let's architect your first digital employee. Fill out the form
+                below to get started.
+              </p>
+
               <form onSubmit={handleSubmit} className="space-y-6 text-left">
-                <FormInput id="name" label="Full Name" value={formData.name} onChange={handleInputChange} />
-                <FormInput id="company" label="Company Name" value={formData.company} onChange={handleInputChange} />
-                <FormInput id="email" label="Work Email" type="email" value={formData.email} onChange={handleInputChange} />
+                <FormInput
+                  id="name"
+                  label="Full Name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                />
+                <FormInput
+                  id="company"
+                  label="Company Name"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                />
+                <FormInput
+                  id="email"
+                  label="Work Email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                />
                 <div className="relative">
                   <textarea
                     id="message"
@@ -121,9 +195,10 @@ ${message || 'Not provided'}
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-cyan-400 text-slate-900 font-bold rounded-full px-8 py-3 text-lg hover:bg-cyan-300 transform hover:scale-105 transition-all duration-300"
+                  disabled={isSubmitting}
+                  className="w-full bg-cyan-400 text-slate-900 font-bold rounded-full px-8 py-3 text-lg hover:bg-cyan-300 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit Request
+                  {isSubmitting ? "Sending..." : "Submit Request"}
                 </button>
               </form>
             </motion.div>
