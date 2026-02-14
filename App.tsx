@@ -82,7 +82,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#010101] text-white selection:bg-orange-500/30 overflow-x-hidden">
       <ScrollProgressBar />
       <SpaceBackground />
-      <ShatteringRocket />
+      {view === "main" && <ShatteringRocket />}
 
       <AnimatePresence mode="wait">
         {view === "main" ? (
