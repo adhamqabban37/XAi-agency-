@@ -1,5 +1,6 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { TextScramble } from "./TextScramble";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,7 +18,7 @@ const itemVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
+      duration: 1.2,
       ease: "easeOut",
     },
   },
@@ -28,132 +29,115 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onBookSession }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+
+  // "Disintegration" transforms mimicking the rocket pieces flying apart
+  // Title (H1) flies top-left
+  const h1X = useTransform(scrollY, [0, 500], [0, -200]);
+  const h1Y = useTransform(scrollY, [0, 500], [0, -150]);
+  const h1Rotate = useTransform(scrollY, [0, 500], [0, -10]);
+  const h1Opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  // Subtitle (H2) flies mid-right
+  const h2X = useTransform(scrollY, [0, 500], [0, 200]);
+  const h2Y = useTransform(scrollY, [0, 500], [0, -50]);
+  const h2Rotate = useTransform(scrollY, [0, 500], [0, 5]);
+  const h2Opacity = useTransform(scrollY, [50, 400], [1, 0]);
+
+  // Description flies bottom-left
+  const pX = useTransform(scrollY, [0, 500], [0, -150]);
+  const pY = useTransform(scrollY, [0, 500], [0, 100]);
+  const pRotate = useTransform(scrollY, [0, 500], [0, -5]);
+  const pOpacity = useTransform(scrollY, [100, 400], [1, 0]);
+
+  // Buttons fly bottom-right
+  const btnX = useTransform(scrollY, [0, 500], [0, 150]);
+  const btnY = useTransform(scrollY, [0, 500], [0, 150]);
+  const btnRotate = useTransform(scrollY, [0, 500], [0, 10]);
+  const btnOpacity = useTransform(scrollY, [150, 400], [1, 0]);
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center text-center pt-20 px-4 overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 z-0">
-        {/* Gradient Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "2s" }}
-        ></div>
-
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)] opacity-20"></div>
-
-        {/* Animated Dots */}
-        <div className="absolute top-1/3 left-1/3 w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
-        <div
-          className="absolute top-2/3 right-1/3 w-2 h-2 bg-blue-400 rounded-full animate-ping"
-          style={{ animationDelay: "0.5s" }}
-        ></div>
-        <div
-          className="absolute bottom-1/3 left-1/2 w-2 h-2 bg-purple-400 rounded-full animate-ping"
-          style={{ animationDelay: "1.5s" }}
-        ></div>
-
-        {/* Floating Lines */}
-        <svg
-          className="absolute inset-0 w-full h-full opacity-30"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <motion.line
-            x1="10%"
-            y1="20%"
-            x2="90%"
-            y2="30%"
-            stroke="url(#gradient1)"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.5 }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-          />
-          <motion.line
-            x1="20%"
-            y1="80%"
-            x2="80%"
-            y2="70%"
-            stroke="url(#gradient2)"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.5 }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-              delay: 1,
-            }}
-          />
-          <defs>
-            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
-              <stop offset="50%" stopColor="#22d3ee" stopOpacity="1" />
-              <stop offset="100%" stopColor="#22d3ee" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-              <stop offset="50%" stopColor="#3b82f6" stopOpacity="1" />
-              <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 flex flex-col items-center space-y-8"
-      >
-        <motion.h1
-          variants={itemVariants}
-          className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-slate-400"
-        >
-          AI Automation Services & AI Agents
-        </motion.h1>
-        <motion.h2
-          variants={itemVariants}
-          className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-slate-300"
-        >
-          Deploy Digital Employees That Work 24/7
-        </motion.h2>
-        <motion.p
-          variants={itemVariants}
-          className="max-w-2xl text-lg md:text-xl text-slate-400"
-        >
-          AI automation that doesn't just chat — it executes. We build
-          autonomous AI agents that integrate with your tools and workflows to
-          automate business tasks, reduce costs by 40-60%, and scale operations.
-        </motion.p>
+    <section
+      ref={containerRef}
+      className="relative min-h-screen flex items-center pt-20 px-4 overflow-hidden"
+    >
+      {/* Content */}
+      <div className="relative z-10 container mx-auto max-w-4xl">
         <motion.div
-          variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col items-center space-y-8 text-center"
         >
-          <button
-            onClick={onBookSession}
-            className="w-full sm:w-auto bg-cyan-400 text-slate-900 font-bold rounded-full px-8 py-3 text-lg hover:bg-cyan-300 transform hover:scale-105 transition-all duration-300"
+          <motion.div
+            variants={itemVariants}
+            style={{ x: h1X, y: h1Y, rotate: h1Rotate, opacity: h1Opacity }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-500/20 rounded-full"
           >
-            Hire a Digital Employee
-          </button>
-          <a
-            href="#services"
-            className="w-full sm:w-auto bg-transparent border-2 border-slate-700 text-slate-300 font-bold rounded-full px-8 py-3 text-lg hover:bg-slate-800 hover:border-slate-600 transform hover:scale-105 transition-all duration-300"
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            <span className="text-sm text-orange-300 font-medium">
+              AI-Powered Automation
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={itemVariants}
+            style={{ x: h1X, y: h1Y, rotate: h1Rotate, opacity: h1Opacity }}
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white to-orange-500 pb-2"
           >
-            View AI Services
-          </a>
+            <TextScramble
+              text="AI Agency"
+              delay={300}
+              speed={70}
+              scrambleSpeed={50}
+            />
+          </motion.h1>
+          <motion.h2
+            variants={itemVariants}
+            style={{ x: h2X, y: h2Y, rotate: h2Rotate, opacity: h2Opacity }}
+            className="text-xl md:text-2xl lg:text-3xl font-bold tracking-tight text-gray-200"
+          >
+            <TextScramble
+              text="Deploy Digital Employees That Work 24/7"
+              delay={1800}
+              speed={60}
+              scrambleSpeed={50}
+            />
+          </motion.h2>
+          <motion.p
+            variants={itemVariants}
+            style={{ x: pX, y: pY, rotate: pRotate, opacity: pOpacity }}
+            className="max-w-xl text-base md:text-lg text-gray-400"
+          >
+            AI automation that doesn't just chat — it executes. We build
+            autonomous AI agents that integrate with your tools and workflows to
+            automate business tasks, reduce costs by 40-60%, and scale
+            operations.
+          </motion.p>
+          <motion.div
+            variants={itemVariants}
+            style={{ x: btnX, y: btnY, rotate: btnRotate, opacity: btnOpacity }}
+            className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6"
+          >
+            <button
+              onClick={onBookSession}
+              className="w-full sm:w-auto bg-orange-500 text-white font-bold rounded-full px-8 py-3 text-lg hover:bg-orange-400 transform hover:scale-105 transition-all duration-300 shadow-lg shadow-orange-500/20"
+            >
+              Hire a Digital Employee
+            </button>
+            <a
+              href="#services"
+              className="w-full sm:w-auto bg-transparent border-2 border-white/10 text-gray-300 font-bold rounded-full px-8 py-3 text-lg hover:bg-white/5 hover:text-white hover:border-orange-500/30 transform hover:scale-105 transition-all duration-300"
+            >
+              View AI Services
+            </a>
+          </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };

@@ -5,7 +5,7 @@ import { TimelineAnimation } from "./TimelineAnimation";
 
 export const AgenticImpact: React.FC = () => {
   return (
-    <Section id="agentic-impact">
+    <Section id="agentic-impact" className="-mt-12 sm:-mt-16">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
@@ -30,14 +30,14 @@ export const AgenticImpact: React.FC = () => {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="flex items-start gap-4"
             >
-              <div className="flex-shrink-0 w-10 h-10 bg-cyan-500/10 border border-cyan-500/20 rounded-lg flex items-center justify-center">
+              <div className="flex-shrink-0 w-10 h-10 bg-orange-500/10 border border-orange-500/20 rounded-lg flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-5 h-5 text-cyan-400"
+                  className="w-5 h-5 text-orange-500"
                 >
                   <path
                     strokeLinecap="round"

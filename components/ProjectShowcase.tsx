@@ -10,16 +10,11 @@ const TechBadge: React.FC<TechBadgeProps> = ({ name }) => (
 );
 
 const ProjectShowcase: React.FC = () => {
-  const techStack = [
-    "FastAPI",
-    "React",
-    "Python AI Models",
-    "SQL Database",
-    "Analytics Dashboards",
-  ];
+  const techStack = ["React", "Node.js", "OpenAI API", "MongoDB"];
 
   return (
     <section className="project-showcase">
+      <div className="project-glass" aria-hidden="true" />
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -68,6 +63,10 @@ const ProjectShowcase: React.FC = () => {
                 <img
                   src="https://i.imgur.com/jjcCsJp.png"
                   alt="XenlixAI - AI Analytics Dashboard"
+                  width={960}
+                  height={600}
+                  loading="lazy"
+                  decoding="async"
                   className="project-image"
                 />
               </a>
@@ -94,15 +93,8 @@ const ProjectShowcase: React.FC = () => {
 
               {/* Role & Contributions */}
               <div className="project-role">
-                <h4>Role & Contributions</h4>
-                <ul>
-                  <li>
-                    Full-stack development (frontend & backend architecture)
-                  </li>
-                  <li>AI model integration and optimization</li>
-                  <li>Interactive analytics dashboard creation</li>
-                  <li>API development and database design</li>
-                </ul>
+                <h4>Role</h4>
+                <p className="role-text">Full Stack Development</p>
               </div>
 
               {/* Tech Stack */}
@@ -151,21 +143,22 @@ const ProjectShowcase: React.FC = () => {
       <style>{`
         .project-showcase {
           padding: 100px 0;
-          background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+          background: transparent;
           position: relative;
+          z-index: 10;
           overflow: hidden;
         }
 
-        .project-showcase::before {
-          content: '';
+        .project-glass {
           position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+          inset: 0;
+          background:
+            radial-gradient(circle at 20% 50%, rgba(251, 146, 60, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 80% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 45%),
+            rgba(1, 1, 1, 0.72);
+          backdrop-filter: blur(16px);
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
           pointer-events: none;
         }
 
@@ -191,7 +184,7 @@ const ProjectShowcase: React.FC = () => {
           font-weight: 600;
           text-transform: uppercase;
           letter-spacing: 2px;
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #fb923c 0%, #ef4444 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -235,7 +228,7 @@ const ProjectShowcase: React.FC = () => {
           height: 100%;
           object-fit: cover;
           display: block;
-          border: 2px solid rgba(99, 102, 241, 0.2);
+          border: 2px solid rgba(251, 146, 60, 0.2);
           border-radius: 20px;
         }
 
@@ -250,7 +243,7 @@ const ProjectShowcase: React.FC = () => {
         .project-description p {
           font-size: 1.1rem;
           line-height: 1.8;
-          color: #cbd5e1;
+          color: #9ca3af;
           margin: 0;
         }
 
@@ -277,8 +270,13 @@ const ProjectShowcase: React.FC = () => {
           left: 0;
           width: 40px;
           height: 3px;
-          background: linear-gradient(90deg, #6366f1, #8b5cf6);
+          background: linear-gradient(90deg, #fb923c, #ef4444);
           border-radius: 2px;
+        }
+
+        .role-text {
+          color: #9ca3af;
+          font-size: 1.1rem;
         }
 
         .project-role ul {
@@ -290,7 +288,7 @@ const ProjectShowcase: React.FC = () => {
         .project-role li {
           padding: 8px 0 8px 25px;
           position: relative;
-          color: #cbd5e1;
+          color: #9ca3af;
           font-size: 1rem;
           line-height: 1.6;
         }
@@ -299,7 +297,7 @@ const ProjectShowcase: React.FC = () => {
           content: '→';
           position: absolute;
           left: 0;
-          color: #6366f1;
+          color: #fb923c;
           font-weight: bold;
         }
 
@@ -312,10 +310,10 @@ const ProjectShowcase: React.FC = () => {
         .tech-badge {
           display: inline-block;
           padding: 8px 16px;
-          background: rgba(99, 102, 241, 0.1);
-          border: 1px solid rgba(99, 102, 241, 0.3);
+          background: rgba(251, 146, 60, 0.05);
+          border: 1px solid rgba(251, 146, 60, 0.2);
           border-radius: 20px;
-          color: #a5b4fc;
+          color: #fdba74;
           font-size: 0.9rem;
           font-weight: 500;
           transition: all 0.3s ease;
@@ -323,8 +321,8 @@ const ProjectShowcase: React.FC = () => {
         }
 
         .tech-badge:hover {
-          background: rgba(99, 102, 241, 0.2);
-          border-color: rgba(99, 102, 241, 0.5);
+          background: rgba(251, 146, 60, 0.1);
+          border-color: rgba(251, 146, 60, 0.4);
           transform: translateY(-2px);
         }
 
@@ -350,25 +348,25 @@ const ProjectShowcase: React.FC = () => {
         }
 
         .cta-primary {
-          background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+          background: linear-gradient(135deg, #fb923c 0%, #ef4444 100%);
           color: #ffffff;
-          box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+          box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
         .cta-primary:hover {
-          box-shadow: 0 6px 25px rgba(99, 102, 241, 0.6);
+          box-shadow: 0 6px 25px rgba(239, 68, 68, 0.5);
           transform: translateY(-2px);
         }
 
         .cta-secondary {
           background: transparent;
-          color: #a5b4fc;
-          border: 2px solid rgba(99, 102, 241, 0.5);
+          color: #fdba74;
+          border: 2px solid rgba(251, 146, 60, 0.3);
         }
 
         .cta-secondary:hover {
-          background: rgba(99, 102, 241, 0.1);
-          border-color: rgba(99, 102, 241, 0.8);
+          background: rgba(251, 146, 60, 0.05);
+          border-color: rgba(251, 146, 60, 0.6);
           transform: translateY(-2px);
         }
 

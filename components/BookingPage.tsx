@@ -12,7 +12,8 @@ const FormInput: React.FC<{
   type?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}> = ({ id, label, type = "text", value, onChange }) => (
+  required?: boolean;
+}> = ({ id, label, type = "text", value, onChange, required }) => (
   <div className="relative">
     <input
       id={id}
@@ -20,6 +21,9 @@ const FormInput: React.FC<{
       value={value}
       onChange={onChange}
       placeholder=" "
+      required={required}
+      aria-required={required}
+      autoComplete={id === "email" ? "email" : "on"}
       className="block w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 peer"
     />
     <label
@@ -40,6 +44,11 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
   const [message, setMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const BOOKING_ENDPOINT = "/.netlify/functions/send-booking";
+  const isValidEmail = (value: string) =>
+    /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -48,37 +57,53 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (
+      !formData.name.trim() ||
+      !formData.company.trim() ||
+      !isValidEmail(formData.email)
+    ) {
+      setError("Please complete all required fields with a valid work email.");
+      return;
+    }
+
     setIsSubmitting(true);
+    setError(null);
 
     try {
-      // Send email via Web3Forms API
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch(BOOKING_ENDPOINT, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: "50429d6b-83f5-4311-9a44-a247a0bf849f",
           subject: `New Strategy Session Request from ${formData.name}`,
           from_name: formData.name,
           email: formData.email,
           company: formData.company,
           message: message || "Not provided",
-          to_email: "xenlixai@gmail.com",
         }),
       });
+
+      if (!response.ok) {
+        throw new Error("Unable to send your request. Please try again later.");
+      }
 
       const result = await response.json();
 
       if (result.success) {
         setIsSubmitted(true);
       } else {
-        alert("Failed to send message. Please try again.");
+        throw new Error(
+          result.message || "Failed to send message. Please try again.",
+        );
       }
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("An error occurred. Please try again.");
+      setError(
+        error instanceof Error
+          ? error.message
+          : "An unexpected error occurred. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -161,12 +186,14 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
                 <FormInput
                   id="name"
                   label="Full Name"
+                  required
                   value={formData.name}
                   onChange={handleInputChange}
                 />
                 <FormInput
                   id="company"
                   label="Company Name"
+                  required
                   value={formData.company}
                   onChange={handleInputChange}
                 />
@@ -174,6 +201,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
                   id="email"
                   label="Work Email"
                   type="email"
+                  required
                   value={formData.email}
                   onChange={handleInputChange}
                 />
@@ -184,6 +212,9 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
                     onChange={(e) => setMessage(e.target.value)}
                     rows={4}
                     placeholder=" "
+                    aria-label="Tell us about your project"
+                    aria-required="false"
+                    autoComplete="off"
                     className="block w-full px-4 py-3 bg-slate-800/50 border border-slate-700 rounded-md text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-cyan-500 peer"
                   />
                   <label
@@ -193,9 +224,15 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
                     Tell us about your project (optional)
                   </label>
                 </div>
+                {error && (
+                  <p className="text-sm text-red-400" role="alert">
+                    {error}
+                  </p>
+                )}
                 <button
                   type="submit"
                   disabled={isSubmitting}
+                  aria-busy={isSubmitting}
                   className="w-full bg-cyan-400 text-slate-900 font-bold rounded-full px-8 py-3 text-lg hover:bg-cyan-300 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending..." : "Submit Request"}

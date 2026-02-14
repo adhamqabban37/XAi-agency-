@@ -2,13 +2,16 @@ import { useEffect } from "react";
 
 export const SchemaMarkup = () => {
   useEffect(() => {
+    const siteUrl = import.meta.env.VITE_SITE_URL ?? window.location.origin;
+    const withBase = (path = "") => `${siteUrl}${path}`;
+
     // Organization Schema
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: "Xenlix AI",
-      url: "https://www.xenlixai.com",
-      logo: "https://www.xenlixai.com/logo.png",
+      url: siteUrl,
+      logo: withBase("/logo.png"),
       description:
         "Xenlix AI provides cutting-edge AI automation, AI agents, and analytics solutions for businesses seeking digital transformation.",
       foundingDate: "2024",
@@ -77,10 +80,10 @@ export const SchemaMarkup = () => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       name: "Xenlix AI",
-      url: "https://www.xenlixai.com",
+      url: siteUrl,
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://www.xenlixai.com/search?q={search_term_string}",
+        target: `${siteUrl}/search?q={search_term_string}`,
         "query-input": "required name=search_term_string",
       },
     };
@@ -163,19 +166,19 @@ export const SchemaMarkup = () => {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://www.xenlixai.com",
+          item: siteUrl,
         },
         {
           "@type": "ListItem",
           position: 2,
           name: "AI Services",
-          item: "https://www.xenlixai.com/#services",
+          item: withBase("/#services"),
         },
         {
           "@type": "ListItem",
           position: 3,
           name: "Case Studies",
-          item: "https://www.xenlixai.com/#case-studies",
+          item: withBase("/#case-studies"),
         },
       ],
     };

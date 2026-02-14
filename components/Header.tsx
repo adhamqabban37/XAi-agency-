@@ -27,7 +27,7 @@ export const Header: React.FC = () => {
       className="fixed top-0 left-0 right-0 z-50"
     >
       <div className="container mx-auto px-6 py-4">
-        <div className="flex items-center justify-between bg-slate-900/50 backdrop-blur-lg border border-slate-800 rounded-full px-6 py-3">
+        <div className="flex items-center justify-between bg-black/50 backdrop-blur-md border border-white/10 rounded-full px-6 py-3">
           <a href="#" className="flex items-center space-x-3">
             <Logo className="h-10 w-auto" />
             <span className="text-xl font-bold text-white">Xenlix</span>
@@ -40,7 +40,7 @@ export const Header: React.FC = () => {
           </nav>
           <a
             href="#contact"
-            className="hidden md:inline-block bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 rounded-full px-5 py-2 text-sm font-medium hover:bg-cyan-400/20 transition-colors duration-300"
+            className="hidden md:inline-block bg-orange-500/10 text-orange-300 border border-orange-500/30 rounded-full px-6 py-2 text-sm font-medium hover:bg-orange-500/20 transition-all duration-300"
           >
             Contact Us
           </a>
@@ -48,8 +48,10 @@ export const Header: React.FC = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:bg-slate-800/50 rounded-lg transition-colors"
+            className="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
             aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-nav"
           >
             <svg
               className="w-6 h-6"
@@ -84,6 +86,7 @@ export const Header: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
+              id="mobile-nav"
               className="md:hidden mt-2 bg-slate-900/95 backdrop-blur-lg border border-slate-800 rounded-2xl p-4"
             >
               <nav className="flex flex-col space-y-4">
@@ -114,7 +117,7 @@ export const Header: React.FC = () => {
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="bg-cyan-400/10 text-cyan-300 border border-cyan-400/30 rounded-full px-5 py-2 text-sm font-medium hover:bg-cyan-400/20 transition-colors duration-300 text-center"
+                  className="bg-orange-500/10 text-orange-300 border border-orange-500/30 rounded-full px-5 py-2 text-sm font-medium hover:bg-orange-500/20 transition-colors duration-300 text-center"
                 >
                   Contact Us
                 </a>

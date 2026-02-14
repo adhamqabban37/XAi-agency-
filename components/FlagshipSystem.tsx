@@ -134,7 +134,7 @@ const FlagshipSystem: React.FC = () => {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-3 mb-4">
-            <span className="px-4 py-1.5 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-full text-cyan-400 text-sm font-semibold uppercase tracking-wide">
+            <span className="px-4 py-1.5 bg-gradient-to-r from-orange-500/20 to-white/20 border border-orange-500/30 rounded-full text-orange-400 text-sm font-semibold uppercase tracking-wide">
               Beta System – In Development
             </span>
           </div>
@@ -143,15 +143,15 @@ const FlagshipSystem: React.FC = () => {
             Flagship AI Systems
           </h2>
 
-          <h3 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-6">
+          <h3 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-white mb-6">
             Real Estate Digital Sales Associate
           </h3>
 
-          <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Proprietary AI system by Xenlix AI
           </p>
 
-          <p className="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
+          <p className="mt-4 text-lg text-gray-400 max-w-3xl mx-auto">
             Turn every lead into a conversation within 5 seconds. Increase
             speed-to-lead by 95% and boost conversion rates with intelligent
             qualification.
@@ -164,10 +164,10 @@ const FlagshipSystem: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-12 p-6 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-l-4 border-cyan-500 rounded-lg"
+          className="mb-12 p-6 bg-gradient-to-r from-orange-500/10 to-white/5 border-l-4 border-orange-500 rounded-lg"
         >
-          <p className="text-slate-300 leading-relaxed">
-            <strong className="text-cyan-400">What it does:</strong> The Real
+          <p className="text-gray-300 leading-relaxed">
+            <strong className="text-orange-400">What it does:</strong> The Real
             Estate Digital Sales Associate is an AI-powered lead response system
             that instantly engages real estate prospects, qualifies their intent
             (budget, timeline, urgency), and seamlessly hands off qualified
@@ -184,14 +184,14 @@ const FlagshipSystem: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="text-center mb-16"
         >
-          <p className="text-lg text-slate-300 max-w-4xl mx-auto leading-relaxed mb-4">
+          <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed mb-4">
             An AI-powered Digital Sales Associate designed specifically for real
             estate agencies and brokerages. This system provides instant
             response to every inbound lead, qualifies prospect intent through
             natural conversation, and automatically syncs all data to your CRM
             with seamless human handoff.
           </p>
-          <p className="text-slate-400 max-w-4xl mx-auto">
+          <p className="text-gray-400 max-w-4xl mx-auto">
             Built to solve the critical problem of missed revenue from slow
             response times—where 78% of buyers choose the first agent who
             responds.
