@@ -118,7 +118,7 @@ export const RetailVoiceAgentDemo: React.FC = () => {
       setCallState("connecting");
 
       // Call backend to register the call and get access token
-      const response = await fetch("/.netlify/functions/retell-create-call", {
+      const response = await fetch("/api/retell-create-call", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ agentId: AGENT_ID }),

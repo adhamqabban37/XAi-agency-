@@ -46,7 +46,7 @@ export const BookingPage: React.FC<BookingPageProps> = ({ onGoBack }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const BOOKING_ENDPOINT = "/.netlify/functions/send-booking";
+  const BOOKING_ENDPOINT = "/api/send-booking";
   const isValidEmail = (value: string) =>
     /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
 
