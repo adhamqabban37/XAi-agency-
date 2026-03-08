@@ -19,6 +19,11 @@ const ValueProp = lazy(() =>
 const UseCases = lazy(() =>
   import("./components/UseCases").then((m) => ({ default: m.UseCases })),
 );
+const RetailVoiceAgentDemo = lazy(() =>
+  import("./components/RetailVoiceAgentDemo").then((m) => ({
+    default: m.RetailVoiceAgentDemo,
+  })),
+);
 const Methodology = lazy(() =>
   import("./components/Methodology").then((m) => ({
     default: m.Methodology,
@@ -106,6 +111,9 @@ const App: React.FC = () => {
               </Suspense>
               <Suspense fallback={<SectionFallback />}>
                 <UseCases />
+              </Suspense>
+              <Suspense fallback={<SectionFallback />}>
+                <RetailVoiceAgentDemo />
               </Suspense>
               <Suspense fallback={<SectionFallback />}>
                 <Methodology />
