@@ -9,7 +9,9 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method Not Allowed" });
+    return res
+      .status(405)
+      .json({ success: false, message: "Method Not Allowed" });
   }
 
   try {
@@ -33,16 +35,19 @@ export default async function handler(req, res) {
       });
     }
 
-    const response = await fetch("https://api.retellai.com/v2/create-web-call", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+    const response = await fetch(
+      "https://api.retellai.com/v2/create-web-call",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          agent_id: agentId,
+        }),
       },
-      body: JSON.stringify({
-        agent_id: agentId,
-      }),
-    });
+    );
 
     const result = await response.json();
 
